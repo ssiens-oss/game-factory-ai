@@ -1,0 +1,10 @@
+{
+  "name": "com.gamefactory.aiobby",
+  "version": "1.0.0",
+  "displayName": "AI Obby Generator",
+  "description": "Real-time AI-driven procedural obby generation system with hazard evolution and Python backend integration.",
+  "unity": "2021.3",
+  "author": {
+    "name": "GameFactory AI"
+  }
+}
