@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Factory Control Panel</title>
+</head>
+
+<body>
+    <h1>🎮 Evolution Control Panel</h1>
+
+    <button onclick="startEvolution()">Start Evolution</button>
+    <button onclick="resetSystem()">Reset</button>
+
+    <pre id="output"></pre>
+
+<script>
+
+const API = "http://127.0.0.1:8000";
+
+async function startEvolution() {
+
+    const res = await fetch(API + "/control/evolve", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            prompt: "obby game with coins",
+            generations: 5,
+            population: 8
+        })
+    });
+
+    const data = await res.json();
+
+    document.getElementById("output").innerText =
+        JSON.stringify(data, null, 2);
+}
+
+async function resetSystem() {
+
+    const res = await fetch(API + "/control/reset", {
+        method: "POST"
+    });
+
+    const data = await res.json();
+
+    document.getElementById("output").innerText =
+        JSON.stringify(data, null, 2);
+}
+
+</script>
+
+</body>
+</html>

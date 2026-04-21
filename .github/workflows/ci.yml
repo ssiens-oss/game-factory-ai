@@ -1,0 +1,27 @@
+name: Game Factory CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build API image
+      run: docker build -t game-factory/api:latest ./backend
+
+    - name: Build Worker image
+      run: docker build -t game-factory/worker:latest ./worker
+
+    - name: Run tests
+      run: echo "run simulation tests here"
+
+    - name: Push images
+      run: echo "push to registry (GHCR/ECR/DockerHub)"
+
+    - name: Trigger ArgoCD sync
+      run: echo "argocd app sync game-factory"

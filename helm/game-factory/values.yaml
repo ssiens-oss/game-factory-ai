@@ -1,0 +1,12 @@
+apiVersion: v1
+
+image:
+  api: game-factory/api:latest
+  worker: game-factory/worker:latest
+
+redis:
+  image: redis:7
+
+replicas:
+  api: 2
+  worker: 4

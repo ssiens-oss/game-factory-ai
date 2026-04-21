@@ -1,0 +1,409 @@
+[
+  {
+    "name": "Platform",
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 2,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 4,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 6,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 8,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 10,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 12,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 14,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 16,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 18,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 20,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 22,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 24,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 26,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 28,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 30,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 32,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 34,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 36,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 38,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 40,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 42,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 44,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 46,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Platform",
+    "position": {
+      "x": 48,
+      "y": 0,
+      "z": 0,
+      "scale": 1
+    },
+    "type": "static"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 4,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 8,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 12,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 16,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 20,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 24,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 28,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 32,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 36,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 40,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 44,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Coin",
+    "position": {
+      "x": 48,
+      "y": 1,
+      "z": 0
+    },
+    "type": "collectible"
+  },
+  {
+    "name": "Obstacle",
+    "position": {
+      "x": 10,
+      "y": 1,
+      "z": 0,
+      "type": "block"
+    },
+    "type": "block"
+  },
+  {
+    "name": "Obstacle",
+    "position": {
+      "x": 20,
+      "y": 1,
+      "z": 0,
+      "type": "block"
+    },
+    "type": "block"
+  },
+  {
+    "name": "Obstacle",
+    "position": {
+      "x": 30,
+      "y": 1,
+      "z": 0,
+      "type": "spinner"
+    },
+    "type": "spinner"
+  },
+  {
+    "name": "Obstacle",
+    "position": {
+      "x": 40,
+      "y": 1,
+      "z": 0,
+      "type": "spinner"
+    },
+    "type": "spinner"
+  }
+]

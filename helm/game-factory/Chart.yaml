@@ -1,0 +1,4 @@
+apiVersion: v2
+name: game-factory
+version: 0.1.0
+description: Autonomous Game Studio Platform

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: game-api
+  template:
+    metadata:
+      labels:
+        app: game-api
+    spec:
+      containers:
+        - name: api
+          image: game-factory-api:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: REDIS_HOST
+              value: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game-api
+spec:
+  selector:
+    app: game-api
+  ports:
+    - port: 80
+      targetPort: 8000
