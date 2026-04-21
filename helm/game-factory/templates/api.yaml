@@ -13,7 +13,7 @@ spec:
         app: game-api
     spec:
       containers:
-      - name: api
-        image: game-factory/api:latest
-        ports:
-        - containerPort: 8000
+        - name: api
+          image: game-factory:latest
+          ports:
+            - containerPort: 8000

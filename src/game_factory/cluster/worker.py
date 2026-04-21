@@ -1,25 +1,20 @@
-import time
-
-from game_factory.studio.orchestrator import run_studio_cycle
-from game_factory.cluster.queue import dequeue, save_result
+from game_factory.world.obby.ecology.engine import MetaConsciousGameEcology
 
 
-def worker_loop(worker_id="worker-1"):
+class ObbyWorker:
+    """
+    Headless simulation worker (no Unity, no rendering).
+    """
 
-    print(f"⚙️ Worker {worker_id} started")
+    def __init__(self, worker_id: str):
+        self.id = worker_id
+        self.engine = MetaConsciousGameEcology()
 
-    while True:
+    def run_episode(self, level):
 
-        job = dequeue()
+        report = self.engine.evolve(level)
 
-        if not job:
-            time.sleep(0.5)
-            continue
-
-        print(f"⚙️ {worker_id} processing {job['id']}")
-
-        result = run_studio_cycle(job["prompt"])
-
-        save_result(job["id"], result)
-
-        print(f"✅ {worker_id} completed {job['id']}")
+        return {
+            "worker": self.id,
+            "report": report
+        }

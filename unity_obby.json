@@ -1,0 +1,238 @@
+{
+  "platforms": [
+    {
+      "id": 0,
+      "x": 0,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 1,
+      "x": 8,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 2,
+      "x": 16,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 3,
+      "x": 24,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 4,
+      "x": 32,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 5,
+      "x": 40,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 6,
+      "x": 48,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 7,
+      "x": 56,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 8,
+      "x": 64,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 9,
+      "x": 72,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 10,
+      "x": 80,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 11,
+      "x": 88,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 12,
+      "x": 96,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 13,
+      "x": 104,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 14,
+      "x": 112,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 15,
+      "x": 120,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 16,
+      "x": 128,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 17,
+      "x": 136,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 18,
+      "x": 144,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    },
+    {
+      "id": 19,
+      "x": 152,
+      "y": 0,
+      "gap_multiplier": 1.6105100000000008
+    }
+  ],
+  "hazards": [
+    {
+      "type": "KillBlock",
+      "x": 8,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 16,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 24,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 40,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "RotatingHazard",
+      "x": 48,
+      "y": 1,
+      "z": 0,
+      "speed": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 56,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "MovingPlatform",
+      "x": 64,
+      "y": 1,
+      "z": 0,
+      "amplitude": 3
+    },
+    {
+      "type": "KillBlock",
+      "x": 72,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 96,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 104,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 112,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 120,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 128,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 136,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 144,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    },
+    {
+      "type": "KillBlock",
+      "x": 152,
+      "y": 1,
+      "z": 0,
+      "danger": 1.0
+    }
+  ]
+}

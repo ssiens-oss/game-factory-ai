@@ -1,12 +1,15 @@
-apiVersion: v1
+replicaCount: 3
 
 image:
-  api: game-factory/api:latest
-  worker: game-factory/worker:latest
+  repository: game-factory
+  tag: latest
 
 redis:
-  image: redis:7
+  enabled: true
 
-replicas:
-  api: 2
-  worker: 4
+worker:
+  replicas: 5
+
+resources:
+  cpu: "500m"
+  memory: "512Mi"

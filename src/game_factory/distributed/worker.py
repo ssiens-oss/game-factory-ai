@@ -1,35 +1,40 @@
-import traceback
+import time
+from game_factory.distributed.queue import get_job
+from game_factory.agents.builder import builder_agent
+from game_factory.agents.exploit import exploit_agent
+from game_factory.agents.fun import fun_agent
+from game_factory.agents.referee import referee_agent
 
-from game_factory.core.intent_parser import parse_intent
-from game_factory.core.game_designer import design_game
-from game_factory.core.scene_engine import build_scene
-from game_factory.ai.balancer import evaluate_playtest
-from game_factory.exporters.unity_exporter import export_to_unity
+
+def process(job):
+    prompt = job["prompt"]
+
+    game = builder_agent(prompt)
+    exploit = exploit_agent(game)
+    fun = fun_agent(game)
+
+    decision = referee_agent(fun["fun_score"], exploit["exploit_score"])
+
+    return {
+        "job_id": job["id"],
+        "game": game,
+        "exploit": exploit,
+        "fun": fun,
+        "reward": decision["reward"],
+        "accepted": decision["accept"]
+    }
 
 
-def process_job(prompt: str):
+def run_worker():
+    print("🧠 Swarm worker online")
 
-    try:
-        intent = parse_intent(prompt)
-        game = design_game(intent)
-        scene = build_scene(game)
+    while True:
+        job = get_job()
 
-        evaluation = evaluate_playtest(scene)
+        if not job:
+            time.sleep(1)
+            continue
 
-        unity = export_to_unity(scene)
+        result = process(job)
 
-        return {
-            "intent": intent,
-            "game": game,
-            "scene": scene,
-            "evaluation": evaluation,
-            "unity_export": unity
-        }
-
-    except Exception:
-        print("🔥 WORKER CRASH:")
-        traceback.print_exc()
-
-        return {
-            "status": "failed"
-        }
+        print("⚙️ job:", result["job_id"], "reward:", result["reward"])

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: game-worker
 spec:
-  replicas: 4
+  replicas: 5
   selector:
     matchLabels:
       app: game-worker
@@ -13,8 +13,6 @@ spec:
         app: game-worker
     spec:
       containers:
-      - name: worker
-        image: game-factory/worker:latest
-        env:
-        - name: REDIS_URL
-          value: redis://redis:6379
+        - name: worker
+          image: game-factory:latest
+          command: ["python", "-m", "game_factory.distributed.worker"]

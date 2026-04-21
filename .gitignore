@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+.venv/
+venv/
+
+node_modules/
+
+*.log
+
+# Unity
+Library/
+Temp/
+Obj/
+Build/
+Builds/
+
+# OS
+.DS_Store

@@ -1,8 +1,25 @@
 import redis
-from rq import Queue
+import json
+import uuid
 
-redis_conn = redis.Redis(host="localhost", port=6379)
-queue = Queue("game_factory", connection=redis_conn)
+r = redis.Redis(host="redis", port=6379, decode_responses=True)
 
-def enqueue_job(func, *args, **kwargs):
-    return queue.enqueue(func, *args, **kwargs)
+QUEUE_KEY = "game_jobs"
+
+
+def enqueue_job(prompt: str):
+    job = {
+        "id": str(uuid.uuid4()),
+        "prompt": prompt,
+        "status": "queued"
+    }
+
+    r.lpush(QUEUE_KEY, json.dumps(job))
+    return job
+
+
+def get_job():
+    raw = r.rpop(QUEUE_KEY)
+    if not raw:
+        return None
+    return json.loads(raw)

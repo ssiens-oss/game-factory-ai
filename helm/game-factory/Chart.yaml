@@ -1,4 +1,5 @@
 apiVersion: v2
 name: game-factory
+description: Autonomous Game Studio Brain
 version: 0.1.0
-description: Autonomous Game Studio Platform
+appVersion: "1.0"

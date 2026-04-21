@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: game-worker
+  name: obby-worker
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: game-worker
+      app: obby-worker
   template:
     metadata:
       labels:
-        app: game-worker
+        app: obby-worker
     spec:
       containers:
-        - name: worker
-          image: game-factory-worker:latest
-          env:
-            - name: REDIS_HOST
-              value: redis
+      - name: worker
+        image: obby-worker:latest
+        env:
+        - name: REDIS_HOST
+          value: redis
