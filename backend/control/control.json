@@ -1,0 +1,5 @@
+{
+  "mode": "autonomous",
+  "workers": 2,
+  "rl": true
+}

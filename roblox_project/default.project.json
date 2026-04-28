@@ -1,0 +1,20 @@
+{
+  "name": "GameFactory",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "Game": {
+        "$path": "src/server/Game.lua"
+      }
+    },
+
+    "Workspace": {
+      "$className": "Workspace",
+      "World": {
+        "$path": "src/worlds/main.lua"
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<roblox version="4">
+  <Item class="Workspace" referent="Workspace">
+    <Properties>
+      <string name="Name">Workspace</string>
+    </Properties>
+  </Item>
+</roblox>

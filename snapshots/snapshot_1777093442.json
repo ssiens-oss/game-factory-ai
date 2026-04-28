@@ -1,0 +1,12 @@
+{
+  "version": 1777093442,
+  "timestamp": 1777093442,
+  "files": {
+    "worlds/main.lua": "\nlocal Workspace = game:GetService(\"Workspace\")\n\nWorkspace:ClearAllChildren()\n\nfor i = 1, 44 do\n    local p = Instance.new(\"Part\")\n    p.Size = Vector3.new(10,1,10)\n    p.Position = Vector3.new(i*10, 5, 0)\n    p.Anchored = true\n    p.Parent = Workspace\nend\n",
+    "server/Game.lua": "\ngame.Players.PlayerAdded:Connect(function(p)\n    print(\"Player:\", p.Name)\nend)\n"
+  },
+  "rl_meta": {
+    "difficulty": 1.2,
+    "economy": 0.62
+  }
+}

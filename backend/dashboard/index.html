@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Game Factory AI</h2>
+<input id="p" placeholder="game idea">
+<button onclick="run()">Run</button>
+<pre id="out"></pre>
+
+<script>
+async function run(){
+  const res = await fetch("http://localhost:8000/run",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({prompt:document.getElementById("p").value})
+  });
+  document.getElementById("out").innerText = await res.text();
+}
+</script>
+</body>
+</html>

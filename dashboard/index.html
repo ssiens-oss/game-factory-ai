@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Game Factory AI</title>
+<style>
+  body { font-family: monospace; background:#111; color:#0f0; padding:20px; }
+  input,button,pre { font-family:monospace; font-size:14px; }
+  input { background:#222; color:#0f0; border:1px solid #0f0; padding:8px; width:400px; }
+  button { background:#0f0; color:#000; border:none; padding:8px 16px; cursor:pointer; margin:4px; }
+  pre { background:#000; padding:12px; border:1px solid #333; min-height:80px; }
+</style>
+</head>
+<body>
+<h2>🎮 Game Factory AI</h2>
+<input id="p" placeholder="game idea (e.g. horror obby with lava)">
+<br><br>
+<button onclick="run()">▶ Generate</button>
+<button onclick="getMetrics()">📊 Metrics</button>
+<pre id="out">awaiting output...</pre>
+
+<script>
+const API = "http://localhost:8000";
+
+async function run() {
+  document.getElementById("out").textContent = "generating...";
+  const res = await fetch(API + "/run", {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({prompt: document.getElementById("p").value || "default obby"})
+  });
+  document.getElementById("out").textContent = JSON.stringify(await res.json(), null, 2);
+}
+
+async function getMetrics() {
+  const res = await fetch(API + "/metrics");
+  const data = await res.json();
+  document.getElementById("out").textContent = JSON.stringify(data.slice(0,10), null, 2);
+}
+</script>
+</body>
+</html>

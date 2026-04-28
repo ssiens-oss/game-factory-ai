@@ -1,0 +1,10 @@
+{
+  "run_id": "boot",
+  "status": "pending",
+  "spec": {
+    "seed": 1234,
+    "difficulty": 1.0,
+    "agents": 10,
+    "duration": 10
+  }
+}

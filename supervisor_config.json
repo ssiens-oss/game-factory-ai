@@ -1,0 +1,8 @@
+{
+  "port": 34872,
+  "max_restarts": 20,
+  "base_backoff_sec": 2,
+  "max_backoff_sec": 60,
+  "kill_stale_processes": true,
+  "log_file": "/home/static/game-factory-ai/logs/rojo_supervisor.log"
+}
