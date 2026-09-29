@@ -1,7 +1,7 @@
 name: Deploy ECHO LIFE
 on:
   push:
-    branches: [echo-life]
+    branches: [main]
     paths:
       - 'echo_life/**'
       - '.github/workflows/echo-life-pages.yml'
