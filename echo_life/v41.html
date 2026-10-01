@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101c22">
+  <meta name="description" content="ECHO//LIFE v41 — a neon city survival shooter. Explore, fight, and keep your signal alive.">
+  <title>ECHO//LIFE — v41 Nightfall</title>
+  <link rel="icon" href="./assets/echo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./v41/styles.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Top-down city shooter. Use WASD or arrows to move, space to auto-aim and fire, Shift to dash, R to reload."></canvas>
+  <div class="hud" id="hud">
+    <header class="topbar">
+      <div class="identity"><span class="logo-mark">E</span><div><strong>ECHO<span>//</span>LIFE</strong><small>v41 <span> / </span> NIGHTFALL PROTOCOL</small></div></div>
+      <div class="mission"><span class="eyebrow" id="district">NEON WARD</span><span>ELIMINATE HOSTILES <b id="obj">0 / 12</b></span><div class="mission-track"><i id="progress"></i></div></div>
+      <div class="tools"><button id="mute" class="tool" aria-label="Mute sound" aria-pressed="false">SOUND <span>ON</span></button><button id="pause" class="tool" aria-label="Pause game">Ⅱ</button></div>
+    </header>
+    <aside class="telemetry">
+      <div class="vitals"><div><span class="eyebrow">SIGNAL INTEGRITY</span><strong><b id="hp">100</b><small> / 100</small></strong></div><div class="health-track"><i id="health"></i></div></div>
+      <div class="metric"><span class="eyebrow">LEVEL</span><strong id="lvl">01</strong></div>
+      <div class="metric"><span class="eyebrow">CREDITS</span><strong id="cash">100</strong><small>¢</small></div>
+      <div class="metric weapon"><span class="eyebrow" id="weapon-status">K-24 / CARBINE</span><strong id="ammo">24 <small>/ 36</small></strong></div>
+    </aside>
+    <div class="notification" id="msg" role="status" aria-live="polite">SIGNAL ONLINE · WELCOME TO NEON WARD</div>
+    <div class="desktop-guide"><span><kbd>W A S D</kbd> MOVE</span><span><kbd>SPACE</kbd> AUTO-AIM + FIRE</span><span><kbd>SHIFT</kbd> DASH</span><span><kbd>R</kbd> RELOAD</span><span class="mouse-hint">MOUSE / AIM + FIRE</span></div>
+    <div class="corner-label">SECTOR <b id="sector">00 : 00</b><span>LIVE SIGNAL <i></i></span></div>
+  </div>
+  <div class="touch-controls" aria-label="Touch controls">
+    <div id="joy" class="joystick" aria-label="Drag to move"><span class="joy-cross"></span><div id="stick"></div><span class="joy-label">MOVE</span></div>
+    <div class="action-controls"><button id="reload" class="action secondary" aria-label="Reload weapon"><span>↻</span><small>RELOAD</small></button><button id="dash" class="action secondary" aria-label="Dash"><span>»</span><small id="dash-status">DASH</small></button><button id="fire" class="action fire" aria-label="Hold to auto-aim and fire"><span>⌖</span><small>FIRE</small></button></div>
+  </div>
+  <main id="title" class="overlay">
+    <div class="intro">
+      <div class="edition"><i></i> ECHO FIELD OPERATIONS <span>BUILD 041</span></div>
+      <div class="title-kicker">THE CITY REMEMBERS.</div>
+      <h1>ECHO<span>//</span><br>LIFE<span class="title-dot">.</span></h1>
+      <div class="subtitle"><span>01</span> NIGHTFALL PROTOCOL</div>
+      <p>Rain on the rooftops. Hostiles in the streets.<br>Your signal is all that’s left. Keep it alive.</p>
+      <button id="start" class="deploy">ENTER NEON WARD <span>↗</span></button>
+      <div class="intro-controls"><span>WASD / MOVE &nbsp; SPACE / FIRE</span><span>TOUCH / MOVE + HOLD FIRE</span></div>
+      <a class="previous" href="./v40.html">ARCHIVE / PLAY v40 <span>↗</span></a>
+    </div>
+    <div class="briefing"><span class="eyebrow">OPERATION BRIEF</span><h2>Stay moving.<br>Watch the windup.</h2><p>Stalkers flank. Gunners mark their shots. Chargers commit to a rush.</p><div><span>01 / ELIMINATE</span><b>12 HOSTILES</b></div><div><span>02 / RECOVER</span><b>AMMO + SIGNAL</b></div><div><span>03 / ADVANCE</span><b>THE NEXT DISTRICT</b></div><small>TOP-DOWN SCROLLING SHOOTER</small></div>
+  </main>
+  <section id="pause-screen" class="overlay pause-overlay" hidden>
+    <div class="pause-card"><span class="eyebrow">SIGNAL SUSPENDED</span><h2>Take a breath.</h2><p>Your operation will resume where you left it.</p><button id="resume" class="deploy">RESUME OPERATION <span>↗</span></button><p class="pause-help">WASD / arrows · space / auto-aim fire<br>Mouse / aim + fire · Shift / dash · R / reload<br>Touch / joystick + hold fire · Escape / pause</p></div>
+  </section>
+  <div id="boot-error" class="boot-error" hidden>Unable to load the operation. Reload this page to try again.</div>
+  <noscript><div class="boot-error">Enable JavaScript to play ECHO//LIFE.</div></noscript>
+  <script type="module" src="./v41/app.js"></script>
+</body>
+</html>

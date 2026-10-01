@@ -19,3 +19,8 @@ Builds/
 
 # OS
 .DS_Store
+
+# Local ECHO//LIFE Pages artifact
+.pages-stage/
+
+.browser-screenshots/

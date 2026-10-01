@@ -1,37 +1,99 @@
-name: Deploy GitHub Pages
+name: Test and deploy ECHO LIFE
 
 on:
   push:
-    branches: [main]
+    branches: [main, echo-life-v41-dev]
+    paths:
+      - 'echo_life/**'
+      - 'sudoku.html'
+      - 'sudoku/**'
+      - 'frontend/**'
+      - 'dashboard/**'
+      - 'saas/frontend/**'
+      - 'backend/dashboard/**'
+      - 'scripts/build-echo-pages.mjs'
+      - 'tests/echo-life/**'
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/echo-life-pages.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Test game modules and Pages staging
+        run: node --test tests/echo-life/*.test.mjs
+
+      - name: Stage and validate site
+        run: node scripts/build-echo-pages.mjs
+
+      - name: Install browser test tools
+        run: |
+          npm install --no-save --package-lock=false playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Smoke test deployed paths and mobile controls
+        env:
+          ECHO_BASE_URL: http://127.0.0.1:4173
+          ECHO_SCREENSHOTS: .browser-screenshots
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .pages-stage &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/v41.html > /dev/null; then break; fi
+            sleep 0.2
+          done
+          node tests/echo-life/browser-smoke.cjs
+
+      - name: Save browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: echo-life-v41-browser
+          path: .browser-screenshots
+          if-no-files-found: ignore
+          include-hidden-files: true
+
       - name: Configure Pages
+        if: github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
 
       - name: Upload site
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .pages-stage
 
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
