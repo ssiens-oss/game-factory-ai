@@ -108,7 +108,7 @@ export class Renderer {
     const { g, width: w, height: h } = this;
     if (w < 720 || h < 490) return;
     const x = w - 86, y = 143, r = 51, zoom = r / 600;
-    g.save(); g.translate(x, y); circle(g, 0, 0, r, '#07151dde'); g.strokeStyle = '#a1dac42b'; g.lineWidth = 1;
+    g.save(); g.translate(x, y); circle(g, 0, 0, r, '#07151d00'); g.strokeStyle = '#a1dac42b'; g.lineWidth = 1;
     g.beginPath(); g.arc(0, 0, r, 0, TAU); g.stroke(); g.beginPath(); g.arc(0, 0, r / 2, 0, TAU); g.moveTo(-r, 0); g.lineTo(r, 0); g.moveTo(0, -r); g.lineTo(0, r); g.stroke();
     for (const e of sim.enemies) { const dx = (e.x - sim.player.x) * zoom, dy = (e.y - sim.player.y) * zoom; if (Math.hypot(dx, dy) < r - 4) circle(g, dx, dy, 2, e.type === 'gunner' ? '#f3b774' : '#f97b94'); }
     circle(g, 0, 0, 3, '#aaffd9'); g.font = '8px monospace'; g.fillStyle = '#a1c9bd'; g.textAlign = 'center'; g.fillText('SIGNAL / 600M', 0, r + 14); g.restore();
