@@ -1,5 +1,11 @@
 # ECHO//LIFE
 
+## Current release: v42 — Afterlight
+
+[Play v42](https://ssiens-oss.github.io/game-factory-ai/echo_life/v42.html). [All 50 implemented improvements](v42/IMPROVEMENTS.md) cover three weapons, shields, combos, medkits, five upgrade paths, elite enemies, Warden bosses, animated city details, explosive fuel cells, gamepad input and saved display settings. The transparent HUD is preserved. v41 and all earlier versions remain available at their existing paths.
+
+The v42 implementation lives in `v42/`, with separate weapon, progression, profile storage and effects modules. It reuses v41's stable audio and core input handling through explicit relative imports. The Pages staging script validates both v41 and v42; the browser suite checks their game behavior and mobile layouts before deployment. Open locally at `/echo_life/v42.html` using the HTTP server command below. Pause for FIELD UPGRADES and DISPLAY + CONTROLS; Q switches weapons and E uses a medkit.
+
 A mobile-first survival strategy roguelite where the world learns from how you play.
 
 ## Playable top-down shooter

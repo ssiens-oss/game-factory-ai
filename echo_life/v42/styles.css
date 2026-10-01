@@ -1,0 +1,58 @@
+@import url('../v41/styles.css');
+:root { --control-scale: 1; }
+.shield-track { height:2px; margin-top:4px; background:#87c9ed22; }
+.shield-track i { display:block; height:100%; background:#87c9ed; width:100%; transition:width .2s; }
+.scoreline { position:absolute; top:100px; left:var(--safe-left); display:flex; gap:18px; font:9px monospace; letter-spacing:.5px; color:#b8cfc3; }
+.scoreline b { color:#e0eadd; font-weight:normal; margin-left:4px; }
+#combo { color:#ffc88a; }
+.utility-controls { position:absolute; right:var(--safe-right); bottom:max(122px,calc(env(safe-area-inset-bottom) + 104px)); display:flex; gap:8px; pointer-events:auto; }
+.utility { background:transparent; border:1px solid #b9f8d24a; color:#d3e6d8; padding:10px 12px; font:8px monospace; letter-spacing:1px; touch-action:manipulation; }
+.utility:hover { background:#b9f8d215; }
+.joystick { transform:scale(var(--control-scale)); transform-origin:left bottom; }
+.action-controls { transform:scale(var(--control-scale)); transform-origin:right bottom; }
+body.left-handed .joystick { left:auto; right:var(--safe-right); transform-origin:right bottom; }
+body.left-handed .action-controls { right:auto; left:var(--safe-left); transform-origin:left bottom; }
+body.left-handed .utility-controls { right:auto; left:var(--safe-left); }
+body.compact-hud .identity { display:none; }
+body.compact-hud .topbar { gap:8px; }
+body.compact-hud .mission { margin-left:0; }
+body.compact-hud .telemetry .metric:not(.weapon) { display:none; }
+body.compact-hud .scoreline { font-size:8px; gap:12px; }
+.pause-card { max-width:480px; max-height:calc(100dvh - 30px); overflow-y:auto; scrollbar-color:#74988a #15272a; }
+.pause-card .deploy { max-width:none; }
+.run-report { display:flex; justify-content:space-between; gap:8px; margin:20px 0; font:8px monospace; color:#83a697; }
+.run-report span b { display:block; font-size:17px; color:#c9e8d3; margin-top:7px; }
+details { border-top:1px solid #b9f8d233; padding:12px 0; }
+summary { cursor:pointer; font:9px monospace; color:#b9f8d2; letter-spacing:1px; }
+summary span { float:right; color:#ffc88a; }
+.shop { display:grid; gap:6px; margin-top:12px; }
+.shop button { display:flex; text-align:left; justify-content:space-between; align-items:center; padding:9px 10px; background:#b9f8d208; border:1px solid #b9f8d22a; color:#d0e9d7; font:9px monospace; }
+.shop button small { display:block; margin-top:5px; font-size:8px; color:#8eafa0; }
+.shop button b { color:#ffc88a; font-weight:normal; white-space:nowrap; }
+.shop button:disabled { opacity:.4; }
+.preferences { display:grid; gap:14px; margin-top:16px; }
+.preferences label { display:flex; justify-content:space-between; align-items:center; gap:12px; color:#bdcfc3; font:10px monospace; }
+.preferences input { accent-color:#b9f8d2; width:110px; max-width:40%; }
+.preferences input[type=checkbox] { width:18px; height:18px; }
+.restart { background:transparent; color:#b9aaa0; border:1px solid #b9aaa044; padding:9px 11px; font:8px monospace; width:100%; margin-top:10px; }
+@media (pointer:fine) and (min-width:951px) { .touch-controls { display:block; } .touch-controls .joystick,.touch-controls .action-controls { display:none; } .utility-controls { bottom:90px; } }
+@media (pointer:coarse),(max-width:950px) { .scoreline { top:170px; font-size:8px; } .notification { top:193px; } }
+@media (max-height:520px) and (orientation:landscape) {
+  .scoreline { top:126px; font-size:7px; gap:12px; }
+  .notification { top:74px; }
+  .utility-controls { bottom:106px; }
+  .utility { padding:8px 10px; font-size:7px; }
+  .pause-card { padding:20px; }
+  .pause-card h2 { font-size:26px; }
+}
+@media (max-width:560px) and (orientation:portrait) {
+  .scoreline { top:178px; left:var(--safe-left); right:var(--safe-right); justify-content:space-between; font-size:7px; gap:5px; }
+  .notification { top:201px; }
+  .utility-controls { bottom:123px; max-width:70%; }
+  .utility { padding:9px 10px; font-size:7px; letter-spacing:.5px; }
+  body.compact-hud .tools { position:static; }
+  body.compact-hud .topbar .mission { flex:1; width:auto; }
+  body.compact-hud .topbar { flex-wrap:nowrap; }
+  body.compact-hud .scoreline { font-size:7px; gap:5px; }
+}
+body.compact-hud .mission .eyebrow { display:none; }

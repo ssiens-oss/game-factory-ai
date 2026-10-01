@@ -167,5 +167,55 @@ async function clean(record) {
     await clean(mobile);
     console.log(`PASS v41 ${viewport.width}x${viewport.height} title/HUD bounds, multi-contact controls, hold fire, dash and focus pause`);
   }
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 844, height: 390 }, { width: 390, height: 844 }, { width: 320, height: 568 }]) {
+    const mobile = viewport.width < 1000;
+    const record = await newPage({ viewport, hasTouch: mobile, isMobile: mobile, deviceScaleFactor: mobile ? 2 : 1 });
+    const p = record.page;
+    await ready(p, mobile ? '/v42.html' : '/echo_life/v42.html');
+    await bounds(p, ['#start']); await p.locator('#start').click();
+    await p.waitForFunction(() => window.__echo.running);
+    await bounds(p, ['.topbar', '.telemetry', '.scoreline', '#weapon', '#heal']);
+    assert.equal(await p.locator('.telemetry').evaluate(el => getComputedStyle(el).backgroundColor), 'rgba(0, 0, 0, 0)', 'v42 keeps transparent HUD');
+    await p.evaluate(() => {
+      const s = window.__echo.sim; s.enemies = []; s.spawnTimer = 100; s.player.x = s.player.y = 90; s.player.cash = 1000; s.player.hp = 50; s.player.vx = s.player.vy = 0;
+      s.enemies = [{ id: 1234, x: 350, y: 90, type: 'stalker', hp: 300, maxHp: 300, speed: 0, timer: 100, plan: 100, path: [], flash: 0, phase: 'hunt', charge: 0, side: 1, spawnIn: 0, vx: 0, vy: 0 }];
+    });
+    await p.locator('#weapon').click();
+    await p.waitForFunction(() => window.__echo.sim.weapon.id === 'scatter' && window.__echo.sim.reloadTimer === 0, null, { timeout: 6000 });
+    assert.equal(await p.evaluate(() => window.__echo.sim.player.mag), 8);
+    const firing = await p.evaluate(() => window.__echo.sim.time);
+    if (mobile) { const box = await p.locator('#fire').boundingBox(); await touch(p, '#fire', 'pointerdown', 20, box.x + box.width / 2, box.y + box.height / 2); }
+    else await p.keyboard.down('Space');
+    await p.waitForFunction(t => window.__echo.sim.time >= t + 0.7, firing, { timeout: 6000 });
+    if (mobile) await touch(p, '#fire', 'pointerup', 20, 0, 0); else await p.keyboard.up('Space');
+    assert(await p.evaluate(() => window.__echo.sim.player.mag < 8), 'New weapon fires through real input');
+    await p.waitForFunction(() => !document.getElementById('heal').disabled);
+    await p.locator('#heal').click(); await p.waitForFunction(() => window.__echo.sim.medkits === 0);
+    assert(await p.evaluate(() => window.__echo.sim.player.hp >= 85));
+    await screenshot(p, `v42-${viewport.width}x${viewport.height}-game`);
+    await p.locator('#pause').click();
+    await p.locator('#loadout summary').click();
+    await p.locator('[data-upgrade="shield"]').click(); assert.equal(await p.evaluate(() => window.__echo.sim.player.maxShield), 47);
+    await p.locator('#preferences summary').click();
+    await p.locator('#compact').check(); await p.locator('#left-handed').check();
+    await p.locator('#control-scale').evaluate(el => { el.value = '1.2'; el.dispatchEvent(new Event('input', { bubbles: true })); });
+    await p.locator('#zoom').evaluate(el => { el.value = '1.2'; el.dispatchEvent(new Event('input', { bubbles: true })); });
+    assert.equal(await p.evaluate(() => window.__echo.renderer.zoom), 1.2);
+    await p.locator('#resume').click();
+    await bounds(p, ['.topbar', '.telemetry', '#weapon', '#heal']);
+    if (mobile) {
+      await bounds(p, ['#joy', '#fire', '#dash', '#reload']);
+      const joy = await p.locator('#joy').boundingBox(), fire = await p.locator('#fire').boundingBox();
+      assert(joy.x > fire.x, 'Left-handed setting swaps controls');
+      const other = await p.locator('.action-controls').boundingBox(); assert(other.x + other.width <= joy.x, 'Scaled controls fit without overlap');
+    }
+    await screenshot(p, `v42-${viewport.width}x${viewport.height}-compact-left-handed`);
+    if (!mobile) {
+      await p.reload(); await p.waitForFunction(() => window.__echo);
+      assert(await p.evaluate(() => document.body.classList.contains('compact-hud') && document.body.classList.contains('left-handed')));
+      assert.equal(await p.evaluate(() => window.__echo.renderer.zoom), 1.2);
+    }
+    await clean(record); console.log(`PASS v42 ${viewport.width}x${viewport.height} weapons, medkit, shop, transparent HUD, settings, scaled controls`);
+  }
   console.log('All ECHO//LIFE browser checks passed.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => { if (browser) await browser.close(); if (server) await new Promise(resolve => server.close(resolve)); });

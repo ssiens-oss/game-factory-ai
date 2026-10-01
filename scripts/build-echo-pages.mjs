@@ -82,7 +82,8 @@ export async function buildEchoPages({
     throw new Error('Pages output must be separate from the source directory');
   }
   await rejectSymlinks(source);
-  const assets = await validateEntry(source);
+  let assets = await validateEntry(source);
+  if (await lstat(path.join(source, 'v42.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v42.html')])].sort();
   const preserved = [];
   for (const relative of [...preserveWebDirs, ...preserveWebFiles]) {
     const filename = publicPath(repositoryDir, relative);
@@ -111,5 +112,5 @@ export async function buildEchoPages({
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const result = await buildEchoPages();
-  console.log(`Staged ECHO//LIFE in ${result.outputDir}; validated ${result.assets.length} v41 files; preserved ${result.preserved.length} other public paths.`);
+  console.log(`Staged ECHO//LIFE in ${result.outputDir}; validated ${result.assets.length} game files; preserved ${result.preserved.length} other public paths.`);
 }
