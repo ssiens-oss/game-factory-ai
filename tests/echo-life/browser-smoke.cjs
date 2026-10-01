@@ -118,6 +118,7 @@ async function clean(record) {
   await page.waitForFunction(() => window.__echo.sim.reloadTimer === 0, null, { timeout: 4000 });
   assert.equal(await page.evaluate(() => window.__echo.sim.player.mag), 24, 'Reload transfers reserve into magazine');
   await page.evaluate(() => { const s = window.__echo.sim; s.enemies = []; s.spawnTimer = 100; });
+  await page.waitForFunction(() => document.getElementById('ammo').textContent.startsWith('24 /'));
   await screenshot(page, 'v41-desktop-game');
   assert(await page.evaluate(() => window.__echo.renderer.city.cache.size <= 32), 'City tile cache is bounded');
   const performance = await page.evaluate(() => ({ frameMs: Number(window.__echo.stats.frameMs.toFixed(2)), maxUpdateMs: Number(window.__echo.stats.maxUpdateMs.toFixed(2)), cachedCityTiles: window.__echo.renderer.city.cache.size, canvasPixels: window.__echo.renderer.canvas.width * window.__echo.renderer.canvas.height }));
@@ -134,7 +135,10 @@ async function clean(record) {
     await bounds(p, ['#start']);
     await screenshot(p, `v41-${viewport.width}x${viewport.height}-title`);
     await p.locator('#start').click();
-    await bounds(p, ['.topbar', '.telemetry', '#joy', '#fire', '#dash', '#reload', '#pause']);
+    await bounds(p, ['.topbar', '.mission', '.telemetry', '#joy', '#fire', '#dash', '#reload', '#pause']);
+    assert(await p.locator('.mission').evaluate(el => el.scrollWidth <= el.clientWidth), 'Mission content fits its panel');
+    const headerBox = await p.locator('.topbar').boundingBox(), hudBox = await p.locator('.telemetry').boundingBox();
+    assert(headerBox.y + headerBox.height <= hudBox.y + 1, 'Mission header does not overlap telemetry');
     const boxes = await Promise.all(['#joy', '#fire', '#dash', '#reload'].map(s => p.locator(s).boundingBox()));
     for (let a = 0; a < boxes.length; a++) for (let b = a + 1; b < boxes.length; b++) {
       const x = boxes[a], y = boxes[b];
