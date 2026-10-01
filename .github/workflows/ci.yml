@@ -9,13 +9,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Build API image
       run: docker build -t game-factory/api:latest ./backend
 
     - name: Build Worker image
+      if: ${{ hashFiles('worker/Dockerfile') != '' }}
       run: docker build -t game-factory/worker:latest ./worker
+
+    - name: Worker image not configured
+      if: ${{ hashFiles('worker/Dockerfile') == '' }}
+      run: echo "Skipping worker image because worker/Dockerfile is not present"
 
     - name: Run tests
       run: echo "run simulation tests here"
