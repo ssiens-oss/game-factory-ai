@@ -88,8 +88,9 @@ async function clean(record) {
   await bounds(page, ['.topbar', '.telemetry', '#pause', '#mute']);
   await page.evaluate(() => { const s = window.__echo.sim; s.enemies = []; s.spawnTimer = 100; s.player.x = s.player.y = 90; s.player.vx = s.player.vy = 0; });
   const before = await page.evaluate(() => window.__echo.sim.player.y);
+  const moveStarted = await page.evaluate(() => window.__echo.sim.time);
   await page.keyboard.down('w');
-  await page.waitForTimeout(350);
+  await page.waitForFunction(t => window.__echo.sim.time >= t + 0.35, moveStarted, { timeout: 6000 });
   await page.keyboard.up('w');
   assert(await page.evaluate(y => y - window.__echo.sim.player.y > 35, before), 'Held movement advances continuously');
   await page.keyboard.press('Escape');
@@ -151,7 +152,8 @@ async function clean(record) {
     const joy = boxes[0], fire = boxes[1];
     await touch(p, '#joy', 'pointerdown', 11, joy.x + joy.width * .8, joy.y + joy.height / 2);
     await touch(p, '#fire', 'pointerdown', 12, fire.x + fire.width / 2, fire.y + fire.height / 2);
-    await p.waitForTimeout(650);
+    const touchStarted = await p.evaluate(() => window.__echo.sim.time);
+    await p.waitForFunction(t => window.__echo.sim.time >= t + 0.65, touchStarted, { timeout: 6000 });
     assert(await p.evaluate(() => window.__echo.sim.player.x > 155), 'Held joystick keeps moving without pointermove');
     assert(await p.evaluate(() => window.__echo.sim.player.kills >= 1 && window.__echo.sim.player.mag < 22), 'Independent fire contact shoots repeatedly while moving');
     await touch(p, '#joy', 'pointercancel', 11, 0, 0);
