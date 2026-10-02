@@ -2,7 +2,7 @@ name: Test and deploy ECHO LIFE
 
 on:
   push:
-    branches: [main, echo-life-v41-dev]
+    branches: [main, echo-life-v41-dev, echo-life-v42-dev]
     paths:
       - 'echo_life/**'
       - 'sudoku.html'
