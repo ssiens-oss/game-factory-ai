@@ -249,5 +249,52 @@ async function clean(record) {
     await screenshot(p,`v43-${viewport.width}x${viewport.height}-restored-city`);
     await clean(record);console.log(`PASS v43 ${viewport.width}x${viewport.height} three puzzles, rewards, pause/resume and relay graphics`);
   }
+  for (const viewport of [{width:1440,height:900},{width:844,height:390},{width:390,height:844},{width:320,height:568}]) {
+    const record=await newPage({viewport,hasTouch:viewport.width<900,isMobile:viewport.width<900}),p=record.page;
+    await p.goto(`${base}/echo_life/v44.html?test=1&seed=44`);
+    await p.waitForFunction(()=>window.__echo || !document.getElementById('boot-error').hidden);
+    assert(await p.evaluate(()=>!!window.__echo),'v44 boots');
+    await p.locator('#start').click();
+    await p.keyboard.down('KeyD');await p.waitForFunction(()=>window.__echo.sim.player.x>110);await p.keyboard.up('KeyD');
+    for(let relay=0;relay<4;relay++) {
+      await p.evaluate(()=>{const s=window.__echo.sim;s.player.x=s.relay.x;s.player.y=s.relay.y;s.player.vx=s.player.vy=0;});
+      await p.waitForFunction(()=>!document.getElementById('interact').disabled);
+      await p.locator('#interact').click();assert.equal(await p.evaluate(()=>window.__echo.running),false);
+      if(relay===0) {
+        const before=await p.evaluate(()=>window.__echo.sim.relay.puzzle.cells);
+        await p.locator('[data-tile="0"]').click();await p.locator('#puzzle-undo').click();
+        assert.deepEqual(await p.evaluate(()=>window.__echo.sim.relay.puzzle.cells),before);
+        await p.locator('#puzzle-reset').click();
+      }
+      await bounds(p,['.puzzle-card','#puzzle-grid','#puzzle-close','#puzzle-undo']);
+      await screenshot(p,`v44-${viewport.width}x${viewport.height}-${relay===3?'frequency':'relay-'+relay}`);
+      for(let move=0;move<100;move++) {
+        if(await p.evaluate(()=>window.__echo.sim.relay.solved))break;
+        await p.locator('#puzzle-hint').click();
+        const text=await p.locator('#puzzle-feedback').textContent();
+        if(text.startsWith('Next signal:')) {const label=text.match(/Next signal: (\w+)/)[1];await p.getByRole('button',{name:label,exact:true}).click();}
+        else {const match=text.match(/(?:tile|dial) (\d+)/);assert(match,text);await p.locator(`[data-tile="${Number(match[1])-1}"]`).click();}
+      }
+      assert.equal(await p.evaluate(()=>window.__echo.sim.relays),relay+1);
+      await p.locator('#puzzle-close').click();assert.equal(await p.evaluate(()=>window.__echo.running),true);
+    }
+    await bounds(p,['.topbar','.telemetry','#journal','#interact']);
+    await screenshot(p,`v44-${viewport.width}x${viewport.height}-city`);
+    await p.locator('#journal').click();assert.equal(await p.locator('#journal-list article').count(),4);
+    assert.equal(await p.evaluate(()=>window.__echo.running),false);
+    await bounds(p,['.journal-card','#journal-close']);
+    await screenshot(p,`v44-${viewport.width}x${viewport.height}-journal`);
+    await p.keyboard.press('Escape');await p.waitForFunction(()=>window.__echo.running);
+    await p.evaluate(()=>{const s=window.__echo.sim;s.player.x=s.relay.x;s.player.y=s.relay.y;s.player.vx=s.player.vy=0;});
+    await p.waitForFunction(()=>!document.getElementById('interact').disabled);await p.locator('#interact').click();
+    await p.locator('[data-tile="0"]').click();
+    const cells=await p.evaluate(()=>window.__echo.sim.relay.puzzle.cells);
+    await p.reload();await p.waitForFunction(()=>window.__echo);
+    await bounds(p,['#start','#continue']);await p.locator('#continue').click();
+    assert.equal(await p.evaluate(()=>window.__echo.sim.relays),4);assert.equal(await p.evaluate(()=>window.__echo.sim.score),2000);
+    assert.deepEqual(await p.evaluate(()=>window.__echo.sim.relay.puzzle.cells),cells);
+    assert.equal(await p.evaluate(()=>window.__echo.sim.journal.length),4);
+    await clean(record);console.log(`PASS v44 ${viewport.width}x${viewport.height} four puzzles, undo, journal, saved resume, city graphics`);
+  }
   console.log('All ECHO//LIFE browser checks passed.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => { if (browser) await browser.close(); if (server) await new Promise(resolve => server.close(resolve)); });
