@@ -26,7 +26,7 @@ export function scenery(g, sim, bounds, low) {
     g.fillStyle = '#03101750'; g.beginPath(); g.ellipse(x - 8, y + 9, 16, 7, 0, 0, 7); g.fill();
     g.save(); g.translate(x, y); g.fillStyle = '#526e72'; g.fillRect(-11, -5, 22, 10); g.fillStyle = neon; g.fillRect(8, -3, 4, 6); g.strokeStyle = '#97c8bc88'; g.lineWidth = 1;
     for (const [dx, dy] of [[-10, -7], [-10, 7], [10, -7], [10, 7]]) { g.beginPath(); g.arc(dx, dy, 4, time * 20, time * 20 + 4); g.stroke(); } g.restore();
-    for (let i = 0; i < 3; i++) { const age = (time * 0.9 + i * 0.31 + tx * 0.11) % 1; g.strokeStyle = `rgba(145,201,195,${(1 - age) * 0.15})`; g.lineWidth = 0.7; g.beginPath(); g.ellipse(tx * S.tileSize + 22 + i * 45, ty * S.tileSize + 242 + i * 133, 10 * age, 4 * age, 0, 0, 7); g.stroke(); }
+    for (let i = 0; i < 3; i++) { const age = ((time * 0.9 + i * 0.31 + tx * 0.11) % 1 + 1) % 1; g.strokeStyle = `rgba(145,201,195,${(1 - age) * 0.15})`; g.lineWidth = 0.7; g.beginPath(); g.ellipse(tx * S.tileSize + 22 + i * 45, ty * S.tileSize + 242 + i * 133, 10 * age, 4 * age, 0, 0, 7); g.stroke(); }
   }
   for (const b of sim.barrels) if (b.hp > 0 && b.x > bounds.left && b.x < bounds.right && b.y > bounds.top && b.y < bounds.bottom) {
     g.fillStyle = '#03070b88'; g.beginPath(); g.ellipse(b.x + 3, b.y + 5, 15, 10, 0, 0, 7); g.fill();

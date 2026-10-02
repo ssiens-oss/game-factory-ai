@@ -44,14 +44,14 @@ async function newPage(options) {
   const context = await browser.newContext(options);
   const page = await context.newPage();
   const errors = [], bad = [];
-  page.on('pageerror', e => errors.push(e.message));
+  page.on('pageerror', e => { errors.push(e.message); console.error('Browser runtime:', e.message); });
   page.on('console', m => { if (m.type() === 'error' && !m.location().url?.endsWith('/favicon.ico')) errors.push(m.text()); });
   page.on('response', r => { if (r.status() >= 400 && !r.url().endsWith('/favicon.ico')) bad.push(r.status() + ' ' + r.url()); });
   return { context, page, errors, bad };
 }
 async function ready(page, url) {
   await page.goto(base + url + '?test=1&seed=41', { waitUntil: 'networkidle' });
-  await page.waitForFunction(() => window.__echo && window.__echo.stats.frames > 2);
+  await page.waitForFunction(() => (window.__echo && window.__echo.stats.frames > 2) || !document.getElementById('boot-error').hidden, null, { timeout: 10000 });
   assert(await page.locator('#boot-error').isHidden(), 'No game boot failure');
 }
 async function clean(record) {
