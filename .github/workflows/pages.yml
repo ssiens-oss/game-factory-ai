@@ -2,7 +2,7 @@ name: Test and deploy ECHO LIFE
 
 on:
   push:
-    branches: [main, echo-life-v41-dev, echo-life-v42-dev, echo-life-v43-dev, echo-life-v44-dev]
+    branches: [main, echo-life-v41-dev, echo-life-v42-dev, echo-life-v43-dev, echo-life-v44-dev, echo-life-v45-dev]
     paths:
       - 'echo_life/**'
       - 'sudoku.html'
@@ -63,6 +63,7 @@ jobs:
             sleep 0.2
           done
           node tests/echo-life/browser-smoke.cjs
+          node tests/echo-life/v45-browser.cjs
 
       - name: Save browser screenshots
         if: always()
