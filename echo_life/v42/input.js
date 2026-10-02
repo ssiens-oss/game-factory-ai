@@ -3,7 +3,7 @@ export class Input extends BaseInput {
   constructor(options) {
     super(options); this.pendingWeapon = false; this.pendingHeal = false; this.padButtons = [];
     this.listen(window, 'keydown', e => { if (this.isEditing(e.target) || e.repeat) return; if (e.code === 'KeyQ') { e.preventDefault(); this.pendingWeapon = true; } if (e.code === 'KeyE') { e.preventDefault(); this.pendingHeal = true; } });
-    for (const [id, action] of [['weapon', 'pendingWeapon'], ['heal', 'pendingHeal']]) { const button = document.getElementById(id); if (button) this.listen(button, 'click', () => { this[action] = true; }); }
+    for (const [id, action] of [['weapon', 'pendingWeapon'], ['heal', 'pendingHeal']]) { const button = document.getElementById(id); if (button) this.listen(button, 'click', () => { this[action] = true; this.canvas?.focus?.({ preventScroll: true }); }); }
   }
   snapshot() {
     const value = super.snapshot(); let pad;

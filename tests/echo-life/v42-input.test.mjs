@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { Input } from '../../echo_life/v42/input.js';
 class Target extends EventTarget {
   constructor(tagName = 'DIV') { super(); this.tagName = tagName; this.style = {}; }
+  focus() { this.focusCount = (this.focusCount || 0) + 1; }
   setPointerCapture() {} hasPointerCapture() { return false; }
   getBoundingClientRect() { return { left: 0, top: 0, width: 100, height: 100 }; }
 }
@@ -19,6 +20,6 @@ test('gamepad deadzone, trigger fire, edge actions, pause and Q/E touch shortcut
   value = input.snapshot(); assert.equal(value.weapon, false); assert.equal(value.dash, false); assert.equal(value.fire, true);
   pad.axes = [0.1, -0.1]; pad.buttons[9].pressed = true; input.snapshot(); input.snapshot(); assert.equal(pauses, 1); assert.equal(input.snapshot().mx, 0);
   event(window, 'keydown', { code: 'KeyQ', target: canvas }); event(window, 'keydown', { code: 'KeyE', target: canvas }); value = input.snapshot(); assert.equal(value.weapon, true); assert.equal(value.heal, true);
-  event(utilities.weapon, 'click'); event(utilities.heal, 'click'); value = input.snapshot(); assert.equal(value.weapon, true); assert.equal(value.heal, true);
+  event(utilities.weapon, 'click'); event(utilities.heal, 'click'); value = input.snapshot(); assert.equal(value.weapon, true); assert.equal(value.heal, true); assert.equal(canvas.focusCount, 2);
   input.clear(); assert.equal(input.snapshot().heal, false); input.destroy();
 });
