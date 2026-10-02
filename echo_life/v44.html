@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101c22">
+  <meta name="description" content="ECHO//LIFE v44 — a city exploration and puzzle adventure. Restore relays with sparse optional combat.">
+  <title>ECHO//LIFE — v44 City of Signals</title>
+  <link rel="icon" href="./assets/echo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./v44/styles.css">
+</head>
+<body>
+  <canvas id="game" tabindex="-1" aria-label="Top-down city shooter. Use WASD or arrows to move, space to auto-aim and fire, Shift to dash, R to reload."></canvas>
+  <div class="hud" id="hud">
+    <header class="topbar">
+      <div class="identity"><span class="logo-mark">E</span><div><strong>ECHO<span>//</span>LIFE</strong><small>v44 <span> / </span> CITY OF SIGNALS</small></div></div>
+      <div class="mission"><span class="eyebrow" id="district">NEON WARD</span><span><span id="mission-label">RESTORE RELAYS</span> <b id="obj">0 / 3</b></span><div class="mission-track"><i id="progress"></i></div></div>
+      <div class="tools"><button id="mute" class="tool" aria-label="Mute sound" aria-pressed="false">SOUND <span>ON</span></button><button id="journal" class="tool" aria-label="Open field journal">J / NOTES</button><button id="pause" class="tool" aria-label="Pause game">Ⅱ</button></div>
+    </header>
+    <aside class="telemetry">
+      <div class="vitals"><div><span class="eyebrow">SIGNAL INTEGRITY</span><strong><b id="hp">100</b><small> / 100</small></strong></div><div class="health-track"><i id="health"></i></div><div class="shield-track" aria-label="Shield charge"><i id="shield-bar"></i></div></div>
+      <div class="metric"><span class="eyebrow">LEVEL</span><strong id="lvl">01</strong></div>
+      <div class="metric"><span class="eyebrow">CREDITS</span><strong id="cash">100</strong><small>¢</small></div>
+      <div class="metric weapon"><span class="eyebrow" id="weapon-status">K-24 / CARBINE</span><strong id="ammo">24 <small>/ 36</small></strong></div>
+    </aside>
+    <div class="scoreline"><span>SCORE <b id="score">0</b></span><span id="combo">CHAIN / —</span><span>SHIELD <b id="shield">35</b></span></div><div class="notification" id="msg" role="status" aria-live="polite">SIGNAL ONLINE · WELCOME TO NEON WARD</div>
+    <div class="desktop-guide"><span><kbd>W A S D</kbd> MOVE</span><span><kbd>SPACE</kbd> AUTO-AIM + FIRE</span><span><kbd>SHIFT</kbd> DASH</span><span><kbd>R</kbd> RELOAD</span><span><kbd>F</kbd> INTERACT</span><span class="mouse-hint">Q / WEAPON · E / MEDKIT</span></div>
+    <div class="corner-label">SECTOR <b id="sector">00 : 00</b><span>LIVE SIGNAL <i></i></span></div>
+  </div>
+  <div class="touch-controls" aria-label="Touch controls">
+    <div id="joy" class="joystick" aria-label="Drag to move"><span class="joy-cross"></span><div id="stick"></div><span class="joy-label">MOVE</span></div>
+    <button id="interact" class="interact" disabled>◇ FIND RELAY</button><div class="utility-controls"><button id="weapon" class="utility" aria-label="Switch weapon">Q / WEAPON</button><button id="heal" class="utility" aria-label="Use medkit">E / MEDKIT <b id="medkits">1</b></button></div><div class="action-controls"><button id="reload" class="action secondary" aria-label="Reload weapon"><span>↻</span><small>RELOAD</small></button><button id="dash" class="action secondary" aria-label="Dash"><span>»</span><small id="dash-status">DASH</small></button><button id="fire" class="action fire" aria-label="Hold to auto-aim and fire"><span>⌖</span><small>FIRE</small></button></div>
+  </div>
+  <main id="title" class="overlay">
+    <div class="intro">
+      <div class="edition"><i></i> ECHO FIELD OPERATIONS <span>BUILD 044</span></div>
+      <div class="title-kicker">THE CITY REMEMBERS.</div>
+      <h1>ECHO<span>//</span><br>LIFE<span class="title-dot">.</span></h1>
+      <div class="subtitle"><span>01</span> CITY OF SIGNALS</div>
+      <p>Follow the lanterns. Recover the city’s memories.<br>Four kinds of relay puzzles. Your progress stays with you.</p>
+      <button id="start" class="deploy">ENTER NEON WARD <span>↗</span></button>
+      <button id="continue" class="continue" hidden>CONTINUE EXPLORING ↗</button><div class="intro-controls"><span>WASD / MOVE &nbsp; SPACE / FIRE</span><span>F / INTERACT · TOUCH / RESTORE RELAY</span></div>
+      <a class="previous" href="./v43.html">ARCHIVE / PLAY v43 <span>↗</span></a>
+    </div>
+    <div class="briefing"><span class="eyebrow">OPERATION BRIEF</span><h2>Slow down.<br>Connect the city.</h2><p>Find glowing relays. Solve changing circuits, light grids, signal clues and frequency dials. Sparse patrols leave room to explore.</p><div><span>01 / DISCOVER</span><b>CITY RELAYS</b></div><div><span>02 / SOLVE</span><b>FOUR PUZZLE TYPES</b></div><div><span>03 / RESTORE</span><b>RECONNECT THE CITY</b></div><small>CITY EXPLORATION + PUZZLES</small></div>
+  </main>
+  <section id="pause-screen" class="overlay pause-overlay" hidden>
+    <div class="pause-card"><span class="eyebrow">SIGNAL SUSPENDED</span><h2>Take a breath.</h2><p>Your operation will resume where you left it.</p><button id="resume" class="deploy">RESUME OPERATION <span>↗</span></button><div class="run-report"><span>BEST SCORE <b id="best">0</b></span><span>ELIMINATIONS <b id="run-kills">0</b></span><span>TIME <b id="run-time">00:00</b></span></div>
+      <details id="loadout"><summary>FIELD UPGRADES <span id="shop-cash">100¢</span></summary><div id="shop" class="shop"></div></details>
+      <details id="preferences"><summary>DISPLAY + CONTROLS</summary><div class="preferences">
+        <label><span>Compact HUD</span><input id="compact" type="checkbox"></label>
+        <label><span>Left-handed touch controls</span><input id="left-handed" type="checkbox"></label>
+        <label><span>Touch control size</span><input id="control-scale" aria-label="Touch control size" type="range" min="0.8" max="1.2" step="0.1" value="1"></label>
+        <label><span>Camera zoom</span><input id="zoom" aria-label="Camera zoom" type="range" min="0.8" max="1.3" step="0.1" value="1"></label>
+        <button id="fullscreen" class="utility">ENTER FULLSCREEN</button>
+      </div></details><button id="restart" class="restart">START A NEW RUN</button>
+      <p class="pause-help">WASD / arrows · space / auto-aim fire<br>Mouse / aim + fire · Shift / dash · R / reload<br>Q / weapon · E / medkit · Gamepad supported<br>Touch / joystick + hold fire · Escape / pause</p></div>
+  </section>
+  <section id="puzzle-screen" class="overlay puzzle-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="puzzle-name">
+    <div class="puzzle-card"><span class="eyebrow">CITY RELAY / WORLD PAUSED</span><h2 id="puzzle-name"></h2><p id="puzzle-help"></p><p id="puzzle-clues"></p><div id="puzzle-grid"></div><p id="puzzle-chosen"></p><p id="puzzle-feedback" role="status" aria-live="polite"></p><div class="puzzle-tools"><button id="puzzle-hint">HINT</button><button id="puzzle-undo">UNDO</button><button id="puzzle-reset">RESET</button><button id="puzzle-close">BACK TO CITY</button></div></div>
+  </section>
+  <section id="journal-screen" class="overlay journal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="journal-name"><div class="journal-card"><span class="eyebrow">FIELD JOURNAL / WORLD PAUSED</span><h2 id="journal-name">The city remembers.</h2><p id="journal-summary"></p><div id="journal-list"></div><button id="journal-close" class="deploy">RETURN TO CITY</button></div></section>
+  <div id="boot-error" class="boot-error" hidden>Unable to load the operation. Reload this page to try again.</div>
+  <noscript><div class="boot-error">Enable JavaScript to play ECHO//LIFE.</div></noscript>
+  <script type="module" src="./v44/app.js"></script>
+</body>
+</html>
