@@ -84,6 +84,7 @@ export async function buildEchoPages({
   await rejectSymlinks(source);
   let assets = await validateEntry(source);
   if (await lstat(path.join(source, 'v42.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v42.html')])].sort();
+  if (await lstat(path.join(source, 'v43.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v43.html')])].sort();
   const preserved = [];
   for (const relative of [...preserveWebDirs, ...preserveWebFiles]) {
     const filename = publicPath(repositoryDir, relative);

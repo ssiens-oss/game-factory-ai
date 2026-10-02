@@ -217,5 +217,37 @@ async function clean(record) {
     }
     await clean(record); console.log(`PASS v42 ${viewport.width}x${viewport.height} weapons, medkit, shop, transparent HUD, settings, scaled controls`);
   }
+  for (const viewport of [{width:1440,height:900},{width:844,height:390},{width:390,height:844},{width:320,height:568}]) {
+    const record = await newPage({viewport,hasTouch:viewport.width<900,isMobile:viewport.width<900}), p=record.page;
+    await p.goto(`${base}/echo_life/v43.html?test=1&seed=43`);
+    await p.waitForFunction(()=>window.__echo || !document.getElementById('boot-error').hidden);
+    assert(await p.evaluate(()=>!!window.__echo),'v43 boots');
+    await p.locator('#start').click();
+    await p.evaluate(()=>{window.__echo.sim.player.x=window.__echo.sim.relay.x;window.__echo.sim.player.y=90;});
+    await p.waitForFunction(()=>!document.getElementById('interact').disabled);
+    await p.locator('#interact').click();
+    assert.equal(await p.evaluate(()=>window.__echo.running),false,'Puzzle pauses world');
+    await p.locator('#puzzle-hint').click();assert.match(await p.locator('#puzzle-feedback').textContent(),/middle-row/);
+    await bounds(p,['.puzzle-card','#puzzle-grid','#puzzle-close']);
+    await screenshot(p,`v43-${viewport.width}x${viewport.height}-puzzle`);
+    for(const i of [3,4,5]) await p.locator(`[data-tile="${i}"]`).click();
+    assert.equal(await p.evaluate(()=>window.__echo.sim.relays),1);
+    await p.locator('#puzzle-close').click();
+    await p.evaluate(()=>{window.__echo.sim.player.x=window.__echo.sim.relay.x;});
+    await p.waitForFunction(()=>!document.getElementById('interact').disabled);
+    await p.locator('#interact').click();
+    for(const i of [0,4,8]) await p.locator(`[data-tile="${i}"]`).click();
+    assert.equal(await p.evaluate(()=>window.__echo.sim.relays),2);
+    await p.locator('#puzzle-close').click();
+    await p.evaluate(()=>{window.__echo.sim.player.x=window.__echo.sim.relay.x;});
+    await p.waitForFunction(()=>!document.getElementById('interact').disabled);
+    await p.locator('#interact').click();
+    for(const i of [0,1,2,3]) await p.locator(`[data-tile="${i}"]`).click();
+    assert.equal(await p.evaluate(()=>window.__echo.sim.player.lvl),2);
+    await p.locator('#puzzle-close').click();
+    assert.equal(await p.evaluate(()=>window.__echo.running),true);
+    await screenshot(p,`v43-${viewport.width}x${viewport.height}-restored-city`);
+    await clean(record);console.log(`PASS v43 ${viewport.width}x${viewport.height} three puzzles, rewards, pause/resume and relay graphics`);
+  }
   console.log('All ECHO//LIFE browser checks passed.');
 })().catch(error => { console.error(error); process.exitCode = 1; }).finally(async () => { if (browser) await browser.close(); if (server) await new Promise(resolve => server.close(resolve)); });
