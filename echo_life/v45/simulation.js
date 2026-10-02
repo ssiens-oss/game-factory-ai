@@ -19,10 +19,10 @@ export class Simulation extends City {
  get sites(){const r=this.relay,n=this.relay.puzzle.number;return [{kind:'relic',id:n,x:r.x+60,y:r.y},{kind:'stash',id:n,x:r.x+40,y:r.y-55},{kind:'fountain',id:n,x:r.x,y:r.y+65},{kind:'resident',id:n,x:r.x,y:r.y-65}];}
  updateDistrict(){const key=Math.floor(this.relays/3);if(!this.visited.includes(key))this.visited.push(key);this.visited=this.visited.slice(-128);if(this.lastDistrict!==key){this.lastDistrict=key;this.emit('level',this.districtInfo.name+' · SIGNALS RETURN');}}
  solveAction(i){if(!this.canInteract||this.relay.solved)return false;if(!act(this.relay.puzzle,i))return false;
-  const p=this.player,type=this.relay.puzzle.type,stars=this.relay.puzzle.moves<=this.relay.puzzle.par?3:this.relay.puzzle.moves<=this.relay.puzzle.par*2?2:1;
+  const p=this.player,districtName=this.districtInfo.name,type=this.relay.puzzle.type,stars=this.relay.puzzle.moves<=this.relay.puzzle.par?3:this.relay.puzzle.moves<=this.relay.puzzle.par*2?2:1;
   this.relay.solved=true;this.restored.push({x:this.relay.x,y:this.relay.y});this.restored=this.restored.slice(-24);this.relays++;this.completedTypes=[...new Set([...this.completedTypes,type])];this.stars+=stars;
   p.obj++;p.cash+=100;p.reserve+=24;p.hp=Math.min(100,p.hp+25);p.shield=p.maxShield;this.score+=500;
-  this.journal.push({relay:this.relays,district:this.districtInfo.name,note:memories[type],type,stars,moves:this.relay.puzzle.moves,elapsed:this.relay.puzzle.elapsed});this.journal=this.journal.slice(-24);
+  this.journal.push({relay:this.relays,district:districtName,note:memories[type],type,stars,moves:this.relay.puzzle.moves,elapsed:this.relay.puzzle.elapsed});this.journal=this.journal.slice(-24);
   if(p.obj>=p.goal){p.obj=0;p.lvl++;p.cash+=120;}if(this.relays%10===0){p.cash+=200;this.emit('level','TEN SIGNALS · +200¢ RESTORATION GRANT');}
   this.restoreFlash=1.8;this.emit('level','RELAY RESTORED · '+ '★'.repeat(stars)+' · +100¢');this.updateDistrict();this.checkTrophies();return true;
  }

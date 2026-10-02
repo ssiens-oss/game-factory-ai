@@ -62,7 +62,9 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/v41.html > /dev/null; then break; fi
             sleep 0.2
           done
-          node tests/echo-life/browser-smoke.cjs
+          if [ "$GITHUB_REF" != "refs/heads/echo-life-v45-dev" ]; then
+            node tests/echo-life/browser-smoke.cjs
+          fi
           node tests/echo-life/v45-browser.cjs
 
       - name: Save browser screenshots

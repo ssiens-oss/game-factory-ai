@@ -52,7 +52,7 @@ async function moveToRelay(p){await p.evaluate(()=>{const s=window.__echo.sim;s.
   await p.locator('#save-tools summary').click();await p.locator('#save-now').click();assert.match(await p.locator('#save-status').textContent(),/saved/);
   const download=p.waitForEvent('download');await p.locator('#export-run').click();const file=await download;assert.equal(file.suggestedFilename(),'echo-life-v45-save.json');
   const portable=await p.evaluate(()=>window.__echo.checkpoint.encode(window.__echo.sim));
-  await p.locator('#import-run').setInputFiles({name:'saved.json',mimeType:'application/json',buffer:Buffer.from(portable)});assert.match(await p.locator('#save-status').textContent(),/saved/);
+  await p.locator('#import-run').setInputFiles({name:'saved.json',mimeType:'application/json',buffer:Buffer.from(portable)});await p.waitForFunction(()=>document.getElementById('save-status').textContent==='Progress saved');assert.match(await p.locator('#save-status').textContent(),/saved/);
   await p.locator('#resume').click();assert(await p.evaluate(()=>document.body.classList.contains('high-contrast')&&document.body.classList.contains('large-text')));
   await bounds(p,['.topbar','#joy','#interact']);await screenshot(p,`v45-${viewport.width}x${viewport.height}-city`);
   await moveToRelay(p);await p.keyboard.press('KeyG');assert(await p.locator('#puzzle-screen').isVisible());await p.keyboard.press('Escape');
