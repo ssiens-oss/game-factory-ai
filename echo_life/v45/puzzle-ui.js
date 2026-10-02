@@ -18,6 +18,7 @@ export class PuzzleUI {
   $('site-action').addEventListener('click',()=>{if(sim.interactSite($('site-action').dataset.kind)){this.hooks.save();this.hooks.hud.notify(sim.lastInteraction,sim.time);this.update();}});
   window.addEventListener('keydown',e=>this.key(e));
  }
+ background(block){for(const id of ['hud','game'])$(id).inert=block;document.querySelector('.touch-controls').inert=block;document.body.classList.toggle('dialog-open',block);}
  get puzzle(){return this.practice||this.sim.relay.puzzle;}
  get solved(){return this.practice?this.practice.solved:this.sim.relay.solved;}
  key(e){
@@ -44,7 +45,7 @@ export class PuzzleUI {
   $('site-action').hidden=!site;if(site){$('site-action').dataset.kind=site.kind;$('site-action').textContent={relic:'COLLECT MEMORY',stash:'OPEN CACHE',fountain:'DRINK / +20 HP',resident:'TALK TO RESIDENT'}[site.kind];}
  }
  open(){if(this.opened||!this.sim.canInteract||!document.body.classList.contains('playing')||!$('pause-screen').hidden)return;this.practice=null;this.beginPuzzle();}
- beginPuzzle(){this.hooks.pause();$('pause-screen').hidden=true;$('journal-screen').hidden=true;this.opened=true;this.mode='puzzle';this.background(true);$('puzzle-screen').hidden=false;$('puzzle-detail-text').hidden=true;this.render();$('puzzle-close').focus({preventScroll:true});}
+ beginPuzzle(){this.pad=[];this.hooks.pause();$('pause-screen').hidden=true;$('journal-screen').hidden=true;this.opened=true;this.mode='puzzle';this.background(true);$('puzzle-screen').hidden=false;$('puzzle-detail-text').hidden=true;this.render();$('puzzle-close').focus({preventScroll:true});}
  hint(){if(this.solved)return;this.puzzle.hints++;const h=nextHint(this.puzzle);$('puzzle-feedback').textContent=h.text;for(const b of $('puzzle-grid').children)b.classList.remove('hinted');if(h.index!==null)$('puzzle-grid').querySelector(`[data-tile="${h.index}"]`)?.classList.add('hinted');this.hooks.save();}
  action(i){const p=this.puzzle;if(!canAct(p,i))return;const done=this.practice?act(p,i):this.sim.solveAction(i);if(done){this.hooks.audio.play('level');if(!this.practice)this.hooks.hud.update(this.sim,true);}this.render();this.hooks.save();const next=$('puzzle-grid').querySelector(`[data-tile="${i}"]`);if(next&&!next.disabled)next.focus({preventScroll:true});else $('puzzle-close').focus({preventScroll:true});}
  render(){const p=this.puzzle,meta=META[p.type],solved=this.solved;document.documentElement.style.setProperty('--puzzle-accent',meta.color);
