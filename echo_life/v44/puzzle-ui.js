@@ -29,7 +29,7 @@ export class PuzzleUI {
     if(!this.sim.journal.length){const p=document.createElement('p');p.textContent='Restore a relay to discover the city’s memories. Your notes and progress save automatically.';list.append(p);}
     for(const entry of [...this.sim.journal].reverse()){const item=document.createElement('article'),h=document.createElement('strong'),p=document.createElement('p');h.textContent=`RELAY ${entry.relay} / ${entry.district}`;p.textContent=entry.note;item.append(h,p);list.append(item);}
     $('journal-summary').textContent=`${this.sim.relays} relays restored · ${this.sim.districtInfo.name} · ${this.sim.score} score`;
-    $('journal-close').focus();
+    $('journal-list').scrollTop=0; $('journal-close').focus({preventScroll:true});
   }
   close(resume=true) {
     $('puzzle-screen').hidden=true; $('journal-screen').hidden=true; this.opened=false; this.sim.nextRelay(); this.hooks.save(); if(resume) this.hooks.resume();

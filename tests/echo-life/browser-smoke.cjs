@@ -282,7 +282,8 @@ async function clean(record) {
     await screenshot(p,`v44-${viewport.width}x${viewport.height}-city`);
     await p.locator('#journal').click();assert.equal(await p.locator('#journal-list article').count(),4);
     assert.equal(await p.evaluate(()=>window.__echo.running),false);
-    await bounds(p,['.journal-card','#journal-close']);
+    await bounds(p,['.journal-card','#journal-name','#journal-close']);
+    assert.equal(await p.locator('#journal-list').evaluate(el=>el.scrollTop),0,'Journal opens at newest entry');
     await screenshot(p,`v44-${viewport.width}x${viewport.height}-journal`);
     await p.keyboard.press('Escape');await p.waitForFunction(()=>window.__echo.running);
     await p.evaluate(()=>{const s=window.__echo.sim;s.player.x=s.relay.x;s.player.y=s.relay.y;s.player.vx=s.player.vy=0;});

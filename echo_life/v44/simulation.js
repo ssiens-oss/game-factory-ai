@@ -12,7 +12,7 @@ export class Simulation extends Exploration {
   if(!act(this.relay.puzzle,i))return false;
   this.relay.solved=true;this.restored.push({x:this.relay.x,y:this.relay.y});this.restored=this.restored.slice(-24);this.relays++;
   const p=this.player;p.obj++;p.cash+=100;p.reserve+=24;p.hp=Math.min(100,p.hp+25);p.shield=p.maxShield;this.score+=500;
-  this.journal.push({relay:this.relays,district:d.name,note:d.note,type:this.relay.puzzle.type});this.journal=this.journal.slice(-12);
+  this.journal.push({relay:this.relays,district:d.name,note:d.note+' '+({pipes:'Power flows beneath the pavement again.',lights:'Streetlamps blink awake, one corner at a time.',order:'A decoded message reads: meet me where the lanterns glow.',tune:'A radio finds its frequency. Someone has been waiting to hear it.'}[this.relay.puzzle.type]),type:this.relay.puzzle.type});this.journal=this.journal.slice(-12);
   if(p.obj===p.goal){p.obj=0;p.lvl++;p.cash+=120;}
   this.emit('level','RELAY RESTORED · +100¢ / +24 ROUNDS / +25 HEALTH');return true;
  }
