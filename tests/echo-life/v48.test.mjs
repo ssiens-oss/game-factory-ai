@@ -1,3 +1,4 @@
+import {markerPosition} from '../../echo_life/v48/enemy-markers.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Simulation} from '../../echo_life/v48/simulation.js';
@@ -24,3 +25,5 @@ test('Themes vary deterministically including negative coordinates',()=>{assert.
 test('3D encounter and ambient meshes are finite, bounded, and do not mutate gameplay',()=>{const s=new Simulation(48),before=JSON.stringify(s.enemies),a=actors(s,false);assert(a.every(Number.isFinite));assert(a.length<120000);assert.equal(JSON.stringify(s.enemies),before);assert.notDeepEqual(ambient(s,false),ambient({...s,time:5},false));});
 test('Default encounters do not inherit the older hidden-enemy preference; explicit v48 choice persists',()=>{const store=storage();store.setItem('echo-life-v46-options',JSON.stringify({calm:true,largeText:true,quality:'low'}));const p=new Profile(store);assert.equal(p.options.calm,false);assert.equal(p.options.largeText,true);p.options.calm=true;p.save(0);assert.equal(new Profile(store).options.calm,true);});
 test('Continue and v47 import retain puzzles and immediately restore patrols',()=>{const store=storage(),s=new Simulation(48);s.relays=17;s.makeRelay();s.relay.puzzle.chosen=[s.relay.puzzle.targets[0]];s.relay.puzzle.moves=1;s.player.cash=999;const old=new Previous(store);assert(old.save(s));const cp=new Checkpoint(store),t=new Simulation(48);assert(cp.migrate(t));assert.equal(t.player.cash,999);assert.deepEqual(t.relay.puzzle.chosen,s.relay.puzzle.chosen);assert.equal(t.enemies.length,3);assert(cp.save(t));const u=new Simulation(49);assert(cp.restore(u));assert.equal(u.enemies.length,3);cp.clear();assert(old.read());});
+
+test('Enemy labels fit viewports, avoid the top HUD and separate crowded edge markers',()=>{for(const[width,height]of [[320,568],[390,844],[844,390],[1440,900]]){const points=[];for(let i=0;i<6;i++){const p=markerPosition({x:-200,y:-200},width,height,points);assert(p.x>=45&&p.x<=width-45);assert(p.y>=150&&p.y<=height-85);assert(points.every(q=>Math.abs(q.x-p.x)>=75||Math.abs(q.y-p.y)>=17));points.push(p);}}});
