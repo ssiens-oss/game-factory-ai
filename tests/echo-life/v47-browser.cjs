@@ -22,6 +22,7 @@ async function moveToRelay(p){await p.evaluate(()=>{const s=window.__echo.sim;s.
   if(viewport.width===1440){await p.evaluate(()=>{window.__lost=window.__echo.renderer.gl.getExtension('WEBGL_lose_context');window.__lost.loseContext();});await p.waitForFunction(()=>window.__echo.renderer.lost);assert.equal(await p.evaluate(()=>window.__echo.running),false);await p.evaluate(()=>window.__lost.restoreContext());await p.waitForFunction(()=>!window.__echo.renderer.lost);await p.locator('#resume').click();assert(await p.evaluate(()=>window.__echo.running));}
   await moveToRelay(p);await p.locator('#interact').click();assert.equal(await p.evaluate(()=>window.__echo.running),false);
   assert(await p.locator('#game').evaluate(el=>el.inert),'Dialog blocks background');
+  await p.waitForTimeout(100);const draws=await p.evaluate(()=>window.__echo.renderer.draws);await p.waitForTimeout(200);assert.equal(await p.evaluate(()=>window.__echo.renderer.draws),draws,'Paused 3D scene reuses frame');
   await bounds(p,['.puzzle-card','#puzzle-grid','#puzzle-close']);
   const before=await p.evaluate(()=>window.__echo.sim.relay.puzzle.cells);
   await p.locator('#puzzle-hint').click();await p.locator('#puzzle-grid .hinted').click();

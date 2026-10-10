@@ -20,7 +20,7 @@ export function cityTile(tx,ty){const m=new Mesh(),ox=tx*640,oz=ty*640,r=seeded(
  return m.array();
 }
 export function actors(sim,low){const m=new Mesh(),t=low?0:sim.time;
- const person=(p,color,heading=0)=>{m.box(p.x,.5,p.y,28,1,24,'#112a2b');const stride=Math.sin(t*9)*3*(Math.hypot(p.vx||0,p.vy||0)>10?1:0);m.box(p.x-6,1,p.y+stride,8,15,9,'#273f49');m.box(p.x+6,1,p.y-stride,8,15,9,'#273f49');m.box(p.x,15,p.y,21,22,15,color);m.box(p.x,37,p.y,14,13,14,'#bed6bb');m.box(p.x+Math.cos(heading)*9,39,p.y+Math.sin(heading)*9,5,5,5,'#a5ffe0');};
+ const person=(p,color,heading=0)=>{m.box(p.x,.5,p.y,28,1,24,'#112a2b');const stride=Math.sin(t*9)*3*(Math.hypot(p.vx||0,p.vy||0)>10?1:0);m.box(p.x-6,1,p.y+stride,8,15,9,'#273f49');m.box(p.x+6,1,p.y-stride,8,15,9,'#273f49');m.box(p.x,15,p.y,21,22,15,color);m.box(p.x,37,p.y,14,13,14,'#bed6bb');m.box(p.x+Math.cos(heading)*9,39,p.y+Math.sin(heading)*9,5,5,5,'#a5ffe0');m.rotatedBox(p.x+Math.cos(heading)*17,25,p.y+Math.sin(heading)*17,23,5,5,heading,'#879f9e');};
  person(sim.player,'#83b9a4',sim.player.a);for(const e of sim.enemies)if(e.hp>0)person(e,e.type==='gunner'?'#bca080':'#b48095',e.a);
  const r=sim.relay;m.box(r.x,1,r.y,40,9,40,'#517470');m.box(r.x,10,r.y,26,19,26,'#305556');m.pyramid(r.x,35+Math.sin(t*2)*3,r.y,26,20,26,'#9bf7d4');m.box(r.x,58,r.y,4,70,4,'#83ddbc');
  for(const s of sim.sites){if(s.kind==='resident')person(s,'#bea989');else if(s.kind==='fountain'){m.box(s.x,1,s.y,45,11,35,'#829791');m.box(s.x,12,s.y,36,1,26,'#77cde0');m.box(s.x,13,s.y,3,22,3,'#a2e5e7');}else if(!(s.kind==='relic'&&sim.relics.includes(s.id)||s.kind==='stash'&&sim.stashes.includes(s.id))){m.box(s.x,4+Math.sin(t*2)*3,s.y,12,12,12,s.kind==='relic'?'#c8b7f2':'#eed195');}}

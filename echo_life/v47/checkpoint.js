@@ -30,6 +30,6 @@ export class Checkpoint {
  }
  restore(sim){const d=this.read();return d?this.apply(sim,d):false;}
  import(raw,sim){const d=this.decode(raw);if(!d){this.status='Invalid save file';return false;}this.apply(sim,d);this.save(sim);return true;}
- migrate(sim){if(!this.legacy.restore(sim))return false;sim.makeRelay();sim.updateDistrict();this.save(sim);return true;}
+ migrate(sim){if(!this.legacy.restore(sim))return false;sim.updateDistrict();this.save(sim);return true;}
  clear(){try{this.storage?.removeItem(KEY);this.storage?.removeItem(KEY+'-backup');this.status='New run';}catch{}}
 }

@@ -12,5 +12,6 @@ export class Mesh {
  this.quad([l,b,n],[l,t,n],[r,t,n],[r,b,n],[0,0,-1],c);
  }
  pyramid(x,y,z,w,h,d,color){const c=rgb(color),top=[x,y+h,z],a=[x-w/2,y,z-d/2],b=[x+w/2,y,z-d/2],e=[x+w/2,y,z+d/2],f=[x-w/2,y,z+d/2];for(const[p,q,n]of [[a,b,[0,.6,-.8]],[b,e,[.8,.6,0]],[e,f,[0,.6,.8]],[f,a,[-.8,.6,0]]])for(const v of[p,q,top])this.vertex(v,n,c);}
+ rotatedBox(x,y,z,w,h,d,angle,color){const start=this.data.length;this.box(0,y,0,w,h,d,color);const c=Math.cos(angle),s=Math.sin(angle);for(let i=start;i<this.data.length;i+=9){const px=this.data[i],pz=this.data[i+2],nx=this.data[i+3],nz=this.data[i+5];this.data[i]=x+px*c-pz*s;this.data[i+2]=z+px*s+pz*c;this.data[i+3]=nx*c-nz*s;this.data[i+5]=nx*s+nz*c;}}
  array(){return new Float32Array(this.data);}
 }
