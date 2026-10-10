@@ -89,6 +89,7 @@ export async function buildEchoPages({
   if (await lstat(path.join(source, 'v45.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v45.html')])].sort();
   if (await lstat(path.join(source, 'v46.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v46.html')])].sort();
   if (await lstat(path.join(source, 'v47.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v47.html')])].sort();
+  if (await lstat(path.join(source, 'v48.html')).catch(() => null)) assets = [...new Set([...assets, ...await validateEntry(source, 'v48.html')])].sort();
   const preserved = [];
   for (const relative of [...preserveWebDirs, ...preserveWebFiles]) {
     const filename = publicPath(repositoryDir, relative);
