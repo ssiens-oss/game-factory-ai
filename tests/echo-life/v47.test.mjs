@@ -1,0 +1,19 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {basis,view,perspective,multiply,project,groundPoint,visibleTiles} from '../../echo_life/v47/math3d.js';
+import {Mesh} from '../../echo_life/v47/geometry.js';
+import {cityTile,actors} from '../../echo_life/v47/city3d.js';
+import {Simulation} from '../../echo_life/v47/simulation.js';
+import {Checkpoint} from '../../echo_life/v47/checkpoint.js';
+import {Checkpoint as Previous} from '../../echo_life/v46/checkpoint.js';
+const store=()=>{const m=new Map();return{getItem:k=>m.get(k)||null,setItem:(k,v)=>m.set(k,v),removeItem:k=>m.delete(k)}};
+test('Perspective projection and pointer ground rays round-trip world coordinates',()=>{for(const [width,height]of [[1440,900],[844,390],[320,568]])for(const eye of [[90,943,910],[90,399,660]])for(const p of [[90,0,90],[250,0,90],[-100,0,-200]]){const target=[90,0,90],screen=project(p,eye,target,Math.PI/3,width,height),world=groundPoint(screen.x,screen.y,eye,target,Math.PI/3,width,height);assert(Math.abs(world.x-p[0])<1e-8);assert(Math.abs(world.y-p[2])<1e-8);}});
+test('Camera basis and matrix place target at viewport center',()=>{const eye=[90,943,910],target=[90,0,90],b=basis(eye,target);assert(Math.abs(Math.hypot(...b.right)-1)<1e-9);const m=multiply(perspective(Math.PI/3,1),view(eye,target));const clip=[0,1,2,3].map(row=>m[row]*90+m[8+row]*90+m[12+row]);assert(Math.abs(clip[0]/clip[3])<1e-7);assert(Math.abs(clip[1]/clip[3])<1e-7);assert(clip[3]>0);});
+test('Behind-camera points and sky pointer rays are rejected',()=>{const eye=[0,200,400],target=[0,0,0];assert.equal(project([0,200,1000],eye,target,Math.PI/3,100,100),null);assert.equal(groundPoint(50,-1000,eye,target,Math.PI/3,100,100),null);});
+test('Visible city cache keys are bounded and handle negative scrolling',()=>{assert.equal(visibleTiles(-1,-1,2).length,25);assert.equal(visibleTiles(6400,6400,1).length,9);assert.equal(new Set(visibleTiles(-1,-1).map(v=>v.join(','))).size,25);});
+test('City meshes are deterministic, finite and bounded for negative and distant blocks',()=>{for(const [x,y]of [[0,0],[-1,-2],[10,20]]){const a=cityTile(x,y);assert.deepEqual(a,cityTile(x,y));assert(a.every(Number.isFinite));assert(a.length%27===0);assert(a.length<200000);}});
+test('Geometry normals and triangle records are valid',()=>{const m=new Mesh();m.box(0,0,0,4,6,8,'#abcdef');m.pyramid(0,0,0,4,5,4,'#abcdef');assert.equal(m.array().length,42*9);for(let i=3;i<m.data.length;i+=9)assert(Math.abs(Math.hypot(...m.data.slice(i,i+3))-1)<1e-6);});
+test('Working simulation draws 3D actors without mutating gameplay',()=>{const s=new Simulation(47),before=JSON.stringify(s.player);const a=actors(s,false);assert(a.length>1000);assert(a.every(Number.isFinite));assert.equal(JSON.stringify(s.player),before);assert.deepEqual(actors(s,true),actors(s,true));});
+test('v47 saves remain separate and migrate v46 progress',()=>{const storage=store(),s=new Simulation(47);s.relays=17;s.makeRelay();s.relay.puzzle.chosen=[s.relay.puzzle.targets[0]];s.relay.puzzle.moves=1;s.player.cash=534;s.relics=[4];const prev=new Previous(storage);assert(prev.save(s));const next=new Checkpoint(storage),t=new Simulation(47);assert(next.migrate(t));assert.equal(t.relays,17);assert.deepEqual(t.relay.puzzle.chosen,s.relay.puzzle.chosen);assert.equal(t.player.cash,534);assert.deepEqual(t.relics,[4]);assert(prev.read());assert(next.read());next.clear();assert(prev.read());assert.equal(next.read(),null);});
+
+test('3D weapon meshes rotate both positions and lighting normals',()=>{const m=new Mesh();m.rotatedBox(10,0,20,12,4,3,Math.PI/2,'#abcdef');for(let i=0;i<m.data.length;i+=9){assert(m.data[i]>=8.49&&m.data[i]<=11.51);assert(m.data[i+2]>=13.99&&m.data[i+2]<=26.01);assert(Math.abs(Math.hypot(...m.data.slice(i+3,i+6))-1)<1e-8);}});

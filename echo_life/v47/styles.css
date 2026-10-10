@@ -1,0 +1,4 @@
+@import '../v46/styles.css';
+.camera-view{position:fixed;right:max(18px,env(safe-area-inset-right));top:210px;z-index:12;min-height:44px;border:1px solid #b0e6d45a;background:#0a242444;color:#d7eee2;padding:9px 12px;font:10px monospace;border-radius:5px;cursor:pointer}.menu .camera-view,.dialog-open .camera-view{display:none}.relay-label{white-space:nowrap;position:fixed;z-index:3;pointer-events:none;color:#c7ffe3;font:10px monospace;text-shadow:0 2px 4px #00160a;background:#061d1944;padding:4px 6px;border-radius:3px;transform:translate(-50%,-100%)}.menu .relay-label,.dialog-open .relay-label{display:none}.boot-error a{color:#caffdf}.camera-view:focus-visible{outline:2px solid #fff}
+@media(max-height:500px){.camera-view{top:174px;right:12px;font-size:8px;padding:7px}}
+@media(max-width:560px) and (orientation:portrait){.camera-view{top:257px;font-size:8px;padding:7px}.relay-label{font-size:8px}}
